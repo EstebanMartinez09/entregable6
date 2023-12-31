@@ -1,0 +1,12 @@
+.cassette > div {
+    backface-visibility: hidden;
+    transition: transform  1s;
+}
+
+.cassette > .front {
+    transform: rotateY(180deg);
+}
+
+.cassette > .back {
+    transform: rotateY(0deg);
+}
