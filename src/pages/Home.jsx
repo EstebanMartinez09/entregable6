@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react"
-import { SearchIcon } from "../components/icons/Svgs"
+import { LoadingIcon, SearchIcon } from "../components/icons/Svgs"
 import { Header } from "../components/shared/Header"
 import { axiosMusic } from "../utils/ConfigAxios"
 import { TrackList } from "../components/shared/TrackList"
 
 export const Home = () => {
+  //? Estados
+  //? Canciones recomendadas
   const [trackRecommendations, setTrackRecommendations] = useState([])
+  //? Canciones de busqueda
   const [searchTracks, setSearchTracks] = useState([])
+  //? Cargando la busqueda
+  const [isLoading, setIsLoading] = useState(false)
 
   //? Funcion para enviar el formulario y obtener las canciones 
   const handleSubmit = (e) => {
@@ -14,8 +19,9 @@ export const Home = () => {
     const query = e.target.query.value
     const limit = e.target.limit.value
     //? si la busqueda esta vacia obtengo las recomendaciones
-    if ( query === "") return setSearchTracks([])
+    if (query === "") return setSearchTracks([])
     //? Obtener las canciones recomendadas
+    setIsLoading(true)
     axiosMusic
       .get(`/api/tracks?limit=${limit}&q=${query}`)
       .then(({ data }) => {
@@ -24,6 +30,7 @@ export const Home = () => {
       .catch((err) => {
         console.log(err)
       })
+      .finally(() => setIsLoading(false))
   }
 
   //? Obtener recomendaciones
@@ -66,6 +73,8 @@ export const Home = () => {
               type="text"
               placeholder="Buscar"
               className="bg-transparent outline-none flex-1" />
+            {/* //? Loading icon */}
+            <LoadingIcon isLoading={isLoading} />
             {/* //? Cantidad resultados */}
             <select
               className="bg-transparent outline-none [&>option]:text-black"

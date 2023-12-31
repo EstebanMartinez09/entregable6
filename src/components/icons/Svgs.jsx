@@ -155,6 +155,16 @@ const ChangeIcon = () => {
     )
 }
 
+const LoadingIcon = ({isLoading}) => {
+    return (
+        <div className={`flex flex-row gap-2  ${isLoading ? "opacity-100" : "opacity-0"} `}>
+            <div className="w-2 h-2 rounded-full bg-white animate-bounce [animation-delay:.7s]"></div>
+            <div className="w-2 h-2 rounded-full bg-white animate-bounce [animation-delay:.3s]"></div>
+            <div className="w-2 h-2 rounded-full bg-white animate-bounce [animation-delay:.7s]"></div>
+        </div>
+    )
+}
+
 
 export {
     PlayListIcon,
@@ -164,5 +174,6 @@ export {
     PlayMusicIcon,
     AddIcon,
     EditIcon,
-    ChangeIcon
+    ChangeIcon,
+    LoadingIcon
 }
