@@ -1,15 +1,30 @@
 import { Link } from "react-router-dom"
-import { AddIcon } from "../icons/Svgs"
-import { useDispatch } from "react-redux"
-import { setPlayList } from "../../store/slices/createPlayList.slice"
+import { AddIcon, DeleteIcon } from "../icons/Svgs"
+import { useDispatch, useSelector } from "react-redux"
+import { deleteSongPlayList, setPlayList } from "../../store/slices/createPlayList.slice"
 
 export const TrackCard = ({ track }) => {
 
+    //? traer el estado global para verificar si el track ya se encuentra en la lista
+    const playList = useSelector(store => store.createPlayList.playList)
+
+    //? Dispath para agregar tracks a la lista de reproducción
     const dispatch = useDispatch()
 
+    //? funcion para agregar tracks a la playlist verificando si ya se encuentra
     const handleAddTrack = (track) => {
-        dispatch(setPlayList(track))
+        if (playList.find(item => item.id === track.id)) {
+            alert("Ya esta en la lista")
+        } else {
+            return dispatch(setPlayList(track))
+        }
     }
+
+    //? funcion para eliminar tracks de la playlist
+    const handleDeleteTrack = (track) => {
+        dispatch(deleteSongPlayList(track.id))
+    }
+
     return (
         // ? Tarjeta
         <article
@@ -52,10 +67,11 @@ export const TrackCard = ({ track }) => {
             <div
                 className="flex gap-2 items-center">
                 {/* //? Boton de agregar al carrito */}
-                <button
-                    onClick={() => handleAddTrack(track)}>
-                    <AddIcon />
-                </button>
+                {
+                    playList.find(item => item.id === track.id)
+                        ? <button onClick={() => handleDeleteTrack(track)}><DeleteIcon /></button>
+                        : <button onClick={() => handleAddTrack(track)}><AddIcon /></button>
+                }
             </div>
         </article>
     )

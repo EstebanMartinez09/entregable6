@@ -9,11 +9,14 @@ const createPlayListSlice = createSlice({
   initialState: initialState,
   reducers: {
     setPlayList(state, action) {
-
       state.playList = [...state.playList, action.payload];
     },
+    deleteSongPlayList(state, action) {
+      const newPlayList = state.playList.filter((song) => song.id !== action.payload);
+      state.playList = newPlayList;
+    }
   },
 });
 
-export const { setPlayList } = createPlayListSlice.actions;
+export const { setPlayList, deleteSongPlayList } = createPlayListSlice.actions;
 export default createPlayListSlice.reducer;

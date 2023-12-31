@@ -4,7 +4,7 @@ export const TrackList = ({ trackList }) => {
     return (
         <section className="grid gap-3">
             {
-                trackList.map((track) => (
+                trackList?.map((track) => (
                     <TrackCard key={track.id} track={track} />
                 ) )        
                 
