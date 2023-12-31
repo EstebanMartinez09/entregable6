@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import UserSlice from "./slices/User.slice";
+import UserSlice from "./slices/user.slice";
 import createPlayListSlice from "./slices/createPlayList.slice";
 
 export default configureStore({

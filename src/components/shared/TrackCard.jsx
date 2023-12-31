@@ -6,7 +6,7 @@ import { deleteSongPlayList, setPlayList } from "../../store/slices/createPlayLi
 export const TrackCard = ({ track }) => {
 
     //? traer el estado global para verificar si el track ya se encuentra en la lista
-    const playList = useSelector(store => store.createPlayList.playList)
+    const playList = useSelector(store => store.createPlayList)
 
     //? Dispath para agregar tracks a la lista de reproducción
     const dispatch = useDispatch()
