@@ -23,6 +23,9 @@ export const PlayLists = () => {
         <main
           className="bg-primary-dark p-8 px-4 rounded-3xl sm:px-16">
             asdasd
+            asdasdasda
+            asdasdasd
+            asdasd
         </main>
       </section>
     </section>
