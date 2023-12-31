@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { logout } from "../../store/slices/User.slice"
 import { LogouthIncon, PlayIcon, PlayListIcon } from "../icons/Svgs"
@@ -10,6 +10,9 @@ export const Header = () => {
     const [isShowAuth, setIsShowAuth] = useState(false)
     //? State para mostrar el popup de playlist
     const [isShowPlayList, setIsShowPlayList] = useState(false)
+
+    //? Estado global playList
+    const playList = useSelector(store => store.createPlayList)
 
     // ? Obtener el dispatch
     const dispatch = useDispatch()
@@ -70,20 +73,22 @@ export const Header = () => {
                         className="hidden md:block">
                         Grabando
                     </span>
-                    1
+                    {
+                        playList.length 
+                    }
                 </button>
                 {/* //?Popup Auth */}
                 <div
                     className={`absolute right-4 -bottom-4 lg:right-[180px] translate-y-full bg-primary-light grid gap-2 p-4 rounded-xl ${isShowAuth ? "block" : "hidden"}`}>
                     <Link
                         to={"/playlists"}
-                        className="flex items-center gap-2">
+                        className="flex items-center gap-2 hover:text-[#3E14B5] transition-colors">
                         <PlayIcon />
                         Mis Grabaciones
                     </Link>
                     {/* //? Boton cerrar secion */}
                     <button
-                        className="flex items-center gap-2"
+                        className="flex items-center gap-2 hover:text-[#3E14B5] transition-color"
                         onClick={andleLogout}>
                         <LogouthIncon />
                         cerrar secion
@@ -91,7 +96,7 @@ export const Header = () => {
                 </div>
 
                 {/* //? Popup playList */}
-                <PopUpPlayList isShowPlayList={isShowPlayList} />
+                <PopUpPlayList setIsShowPlayList={setIsShowPlayList} isShowPlayList={isShowPlayList} />
             </div>
         </header>
     )
