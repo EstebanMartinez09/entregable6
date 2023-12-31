@@ -1,15 +1,20 @@
 import { useState } from "react"
-import { EditIcon } from "../icons/Svgs"
+import { ChangeIcon, EditIcon } from "../icons/Svgs"
 import "./PopUpPlayList.css"
 
 const PopUpPlayList = ({ isShowPlayList }) => {
     //? State para mostrar el cassette de playlist
     const [isShowFront, setIsShowFront] = useState(true)
+
+    const handleToggleCassette = () => {
+        setIsShowFront(!isShowFront)
+    }
+
     return (
         <form
             className={`absolute right-4 -bottom-4  translate-y-full bg-primary-light grid gap-2 p-4 rounded-xl ${isShowPlayList ? "block" : "hidden"}`}>
             {/* cassette */}
-            <div className="relative cassette">
+            <div className={`relative cassette ${isShowFront ? "front" : "back"}`}>
                 {/* Frontal */}
                 <div
                     className="relative front">
@@ -51,6 +56,17 @@ const PopUpPlayList = ({ isShowPlayList }) => {
                     </label>
                 </div>
             </div>
+            <button
+            className="flex gap-2 mx-auto p-1 px-4 border-2 border-white rounded-full"
+                type="button"
+                onClick={handleToggleCassette}>
+                Lado {
+                    isShowFront 
+                    ?"B"
+                    :"A"
+                }
+                <ChangeIcon />
+            </button>
         </form>
     )
 }
