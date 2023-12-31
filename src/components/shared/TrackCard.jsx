@@ -1,7 +1,15 @@
 import { Link } from "react-router-dom"
 import { AddIcon } from "../icons/Svgs"
+import { useDispatch } from "react-redux"
+import { setPlayList } from "../../store/slices/createPlayList.slice"
 
 export const TrackCard = ({ track }) => {
+
+    const dispatch = useDispatch()
+
+    const handleAddTrack = (track) => {
+        dispatch(setPlayList(track))
+    }
     return (
         // ? Tarjeta
         <article
@@ -20,7 +28,7 @@ export const TrackCard = ({ track }) => {
                 {/* //? Nombre del track */}
                 <Link
                     to={`/tracks/${track.id}`}
-                    className="text-sm font-bold hover:text-secondary transition-colors line-clamp-1">
+                    className="text-sm font-bold hover:text-secondary transition-colors line-clamp-1 ">
                     {track.name}
                 </Link>
                 {/* //? Artistas del track */}
@@ -44,7 +52,8 @@ export const TrackCard = ({ track }) => {
             <div
                 className="flex gap-2 items-center">
                 {/* //? Boton de agregar al carrito */}
-                <button>
+                <button
+                    onClick={() => handleAddTrack(track)}>
                     <AddIcon />
                 </button>
             </div>

@@ -1,11 +1,17 @@
 import { useState } from "react"
 import { ChangeIcon, EditIcon } from "../icons/Svgs"
 import "./PopUpPlayList.css"
+import { TrackList } from "./TrackList"
+import { useSelector } from "react-redux"
 
 const PopUpPlayList = ({ isShowPlayList }) => {
     //? State para mostrar el cassette de playlist
     const [isShowFront, setIsShowFront] = useState(true)
 
+    //? estado global de playlist
+    const newPlayList = useSelector(store => store.createPlayList.playList)
+
+    //? Funcion para girar el cassette de playlist
     const handleToggleCassette = () => {
         setIsShowFront(!isShowFront)
     }
@@ -14,7 +20,7 @@ const PopUpPlayList = ({ isShowPlayList }) => {
         <form
             className={`absolute right-4 -bottom-4  translate-y-full bg-primary-light grid gap-2 p-4 rounded-xl ${isShowPlayList ? "block" : "hidden"}`}>
             {/* cassette */}
-            <div className={`relative cassette ${isShowFront ? "front" : "back"}`}>
+            <div className={`relative cassette ${isShowFront ? "front" : "back"} mx-auto`}>
                 {/* Frontal */}
                 <div
                     className="relative front">
@@ -67,6 +73,7 @@ const PopUpPlayList = ({ isShowPlayList }) => {
                 }
                 <ChangeIcon />
             </button>
+            <TrackList trackList={newPlayList} />
         </form>
     )
 }
