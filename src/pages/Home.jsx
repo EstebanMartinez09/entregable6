@@ -47,7 +47,8 @@ export const Home = () => {
 
   return (
     <section
-      className="bg-dark bg-[url('/bagraund/mancha-mobile.png')] md:bg-[url('/bagraund/mancha-desk.png')] bg-no-repeat bg-right-bottom text-white h-screen overflow-auto font-urbanist grid grid-rows-[auto_1fr] ">
+      className="bg-dark bg-[url('/bagraund/mancha-mobile.png')] md:bg-[url('/bagraund/mancha-desk.png')] bg-no-repeat bg-right-bottom
+       text-white h-screen overflow-auto font-urbanist grid grid-rows-[auto_1fr]">
       {/* //? Encabezado */}
       <Header />
 
