@@ -1,14 +1,22 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { axiosMusic } from "../utils/ConfigAxios"
 import { Header } from "../components/shared/Header"
+import { LoadingIcon, SearchIcon } from "../components/icons/Svgs"
+import { CassetteList } from "../components/shared/CassetteList"
 
 export const PlayLists = () => {
+  //? playlists
+  const [playlists, setPlaylists] = useState([])
 
+  //? Obtener las playlists
   useEffect(() => {
     axiosMusic
       .get("/api/playlists/me")
       .then(({ data }) => {
-        console.log(data)
+        setPlaylists(data)
+      })
+      .catch((err) => {
+        console.log(err)
       })
   }, [])
 
@@ -21,11 +29,30 @@ export const PlayLists = () => {
       <section
         className="p-2 mt-12 max-w-[562px] mx-auto">
         <main
-          className="bg-primary-dark p-8 px-4 rounded-3xl sm:px-16">
-            asdasd
-            asdasdasda
-            asdasdasd
-            asdasd
+          className="bg-primary-dark p-8 pb-2 px-4 rounded-3xl sm:px-16">
+
+          <form
+            onSubmit={""}
+            className="flex items-center gap-2 bg-white/20 p-2 px-4 rounded-xl"
+            size={10}>
+            {/* //? Icono buscador */}
+            <button>
+              <SearchIcon />
+            </button>
+            {/* //? Input buscador */}
+            <input
+              autoComplete="off"
+              name="query"
+              type="text"
+              placeholder="Buscar"
+              className="bg-transparent outline-none flex-1" />
+            {/* //? Loading icon */}
+            <LoadingIcon isLoading={""} />
+          </form>
+
+          {/* //? Lista de playlists */}
+          <CassetteList playlists={playlists} />
+
         </main>
       </section>
     </section>
