@@ -5,7 +5,7 @@ import { LoadingIcon, SearchIcon } from "../components/icons/Svgs"
 import { CassetteList } from "../components/shared/CassetteList"
 
 export const PlayLists = () => {
-  //? playlists
+  //? estado playlists
   const [playlists, setPlaylists] = useState([])
 
   //? Obtener las playlists
