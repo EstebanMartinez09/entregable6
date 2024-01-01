@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import { logout } from "../../store/slices/User.slice"
+import { logout } from "../../store/slices/user.slice"
 import { LogouthIncon, PlayIcon, PlayListIcon } from "../icons/Svgs"
 import PopUpPlayList from "./PopUpPlayList"
 
