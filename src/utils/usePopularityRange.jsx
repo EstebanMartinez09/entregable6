@@ -14,7 +14,7 @@ const usePopularityRange = (popularity) => {
 
       // Crea un array con estrellas pintadas y despintadas
       const stars = Array.from({ length: totalStars }, (_, index) => {
-        return index < Math.floor(filledStars) ? <IconHeartFilled /> :<IconHeart />;
+        return index < Math.floor(filledStars) ? <IconHeartFilled className="w-5 h-5" /> :<IconHeart className="w-5 h-5" />;
       });
 
       setRating(stars);

@@ -5,8 +5,8 @@ const Slider = ({artistData}) => {
   const [sliderRef] = useKeenSlider({
     mode: "free-snap",
     slides: {
-      perView: 3,
-      spacing: 15,
+      perView: 3.2,
+      spacing: 10,
     },
 
 

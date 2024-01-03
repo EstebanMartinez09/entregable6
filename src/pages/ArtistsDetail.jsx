@@ -6,16 +6,15 @@ import usePopularityRange from "../utils/usePopularityRange";
 import { IconUserHexagon } from "@tabler/icons-react";
 import "keen-slider/keen-slider.min.css";
 import Slider from "../utils/Slider";
+import "../styles/Scroll.css";
 
 export const ArtistsDetail = () => {
   const { id } = useParams();
-  console.log(id);
+  
 
   const [artistData, setArtistData] = useState(null);
   const [loader, setLoader] = useState(true);
 
-
-  console.log(artistData);
 
   useEffect(() => {
     axiosMusic
@@ -46,14 +45,16 @@ export const ArtistsDetail = () => {
   };
 
   return (
-    <main>
-      <section
+    <main className="overflow-hidden">
+        <section
         className="bg-dark bg-[url('/bagraund/mancha-mobile.png')] md:bg-[url('/bagraund/mancha-desk.png')] bg-no-repeat bg-right-bottom
-       text-white h-screen overflow-auto font-urbanist grid grid-rows-[auto_1fr]"
+        text-white h-screen overflow-auto font-urbanist grid grid-rows-[auto_1fr]"
       >
         <Header />
+        <div className="mt-12 mb-6  overflow-hidden " >
 
-        <section className="p-2  mt-12 max-w-[562px] mx-auto">
+        <div className="scrollbar max-w-[562px] mx-auto  rounded-3xl">
+        <section className=" max-w-[562px] mx-5 ">
           <section className="flex flex-col gap-y-12  bg-primary-dark p-8 px-4  rounded-3xl sm:px-16 ">
             <div>
               <Link
@@ -72,12 +73,12 @@ export const ArtistsDetail = () => {
               ) : (
                 <>
                   {/* artista */}
-                  <header className="flex gap-4">
-                    <div className="rounded-full overflow-hidden">
+                  <header className="flex max-sm:flex-col justify-center items-center gap-4">
+                    <div className="">
                       {artistData.images[2].url ? (
                         <img
-                          className=""
-                          src={artistData.images[2].url}
+                          className="rounded-full max-sm:w-[150px] max-sm:h-[150px] "
+                          src={artistData.images[0].url}
                           alt=""
                         />
                       ) : (
@@ -89,20 +90,21 @@ export const ArtistsDetail = () => {
                       className="flex flex-col gap-2 text-white
                        font-bold font-['Urbanist']"
                     >
-                      <span className="text-3xl mb-2  leading-7 tracking-tight">
+                      <span className="mb-2  text-white text-xl font-bold font-['Urbanist'] leading-7 tracking-tight">
                         {artistData.name}
                       </span>
-                      <span>seguidores: {followers()} </span>
-                      <span className="flex ">
-                        Popularidad: {popularityRange}{" "}
+                      <span className="text-white text-sm font-bold font-['Urbanist'] leading-tight tracking-tight">seguidores: {followers()} </span>
+                      <span className="flex">
+                        Popularidad: {" "} {popularityRange}
                       </span>
 
-                      <ul className="grid row-auto gap-2 ">
+                      <ul className="grid row-auto max-h-[200px]">
                         <span className="">generos:</span>
-                        <span className="flex flex-wrap gap-1">
+                        <span className="flex flex-wrap ml-1">
                           {artistData.genres.map((genre, index) => (
                             <li
-                              className="my-2 rounded-full border border-primary-light p-1"
+                              className=" text-xs m-1 p-1 
+                              rounded-full border border-primary-light"
                               key={index}
                             >
                               {genre}
@@ -120,40 +122,46 @@ export const ArtistsDetail = () => {
                   </section>
                   {/* songs */}
                   <section className="my-8">
-                    <p className="mb-4">Canciones relacionadas</p>
+                    <p className="mb-4 ">Canciones relacionadas</p>
+                    <div className=" gap-4">
                     {artistData.songsTop.map((songsTop) => (
                       <div
                         className="flex flex-col justify-center"
                         key={songsTop.id}
                       >
                         <div
-                          className="w-[132px] flex flex-col justify-center rounded"
+                          className=" flex  rounded my-2"
                           key={songsTop.id}
                         >
                           <img
-                            className="size-[123px] rounded-[16px]"
-                            src={songsTop.album.images[1].url}
+                            className="w-[53.88px] h-[57.56px] rounded-[16px]"
+                            src={songsTop.album.images[0].url}
                             alt=""
                           />
-                          <p className="text-[12px] font-semibold truncate">
+                          <div className="flex flex-col justify-center ml-3">
+                          <p className="text-[12px] font-semibold truncate mb-2">
                             {" "}
                             {songsTop.album.name}{" "}
                           </p>
-                          <p className="text-[11px] text-white/60 truncate">
-                            {songsTop.album.artists.length > 1
-                              ? `${songsTop.album.artists[0].name},${songsTop.album.artists[1].name}`
+                          <Link  to={`/artists/${songsTop.id}`} className="hover:text-secondary text-[11px] text-white/60 truncate ">
+                            {songsTop.album.artists.length > 2
+                              ? `${songsTop.album.artists[0].name} , ${songsTop.album.artists[1].name}`
                               : `${songsTop.album.artists[0].name}`}
-                          </p>
+                          </Link>
+                          </div>
                         </div>
                       </div>
                     ))}
+                    </div>
                   </section>
                 </>
               )}
             </div>
           </section>
         </section>
-      </section>
+      </div>
+      </div>
+        </section>
     </main>
   );
 };
