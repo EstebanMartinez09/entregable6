@@ -7,6 +7,8 @@ import { IconUserHexagon } from "@tabler/icons-react";
 import "keen-slider/keen-slider.min.css";
 import Slider from "../utils/Slider";
 import "../styles/Scroll.css";
+import { TrackCard } from "../components/shared/TrackCard";
+import { TrackList } from "../components/shared/TrackList";
 
 export const ArtistsDetail = () => {
   const { id } = useParams();
@@ -45,15 +47,15 @@ export const ArtistsDetail = () => {
   };
 
   return (
-    <main className="overflow-hidden">
+    <main className="overflow-hidden ">
         <section
         className="bg-dark bg-[url('/bagraund/mancha-mobile.png')] md:bg-[url('/bagraund/mancha-desk.png')] bg-no-repeat bg-right-bottom
         text-white h-screen overflow-auto font-urbanist grid grid-rows-[auto_1fr]"
       >
         <Header />
-        <div className="mt-12 mb-6  overflow-hidden " >
+        <div className="mt-12 mb-6 overflow-auto  " >
 
-        <div className="scrollbar max-w-[562px] mx-auto  rounded-3xl">
+        <div className="scrollbar overflow-y-auto max-w-[562px] mx-auto  rounded-3xl">
         <section className=" max-w-[562px] mx-5 ">
           <section className="flex flex-col gap-y-12  bg-primary-dark p-8 px-4  rounded-3xl sm:px-16 ">
             <div>
@@ -120,7 +122,7 @@ export const ArtistsDetail = () => {
                     <p className="mb-4">Otros discos del artista</p>
                     <Slider artistData={artistData} />
                   </section>
-                  {/* songs */}
+                  {/* songs */}{/* canciones *
                   <section className="my-8">
                     <p className="mb-4 ">Canciones relacionadas</p>
                     <div className=" gap-4">
@@ -154,6 +156,8 @@ export const ArtistsDetail = () => {
                     ))}
                     </div>
                   </section>
+                            */}
+                  <TrackList className="mb-8" trackList={artistData.songsTop} />         
                 </>
               )}
             </div>
