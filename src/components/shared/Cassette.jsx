@@ -1,10 +1,21 @@
-import { Link } from "react-router-dom"
-import { EditIcon } from "../icons/Svgs"
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setEditing, setPlayListEditing } from "../../store/slices/createPlayList.slice";
+import { EditIcon } from "../icons/Svgs";
 
 export const Cassette = ({ playlist, index }) => {
     //? useState para el hover 
     const [hover, setHover] = useState(false);
+
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const handleClick = () => {
+        dispatch(setEditing(true));
+        dispatch(setPlayListEditing(playlist));
+        navigate(`/playlists/${playlist.id}`)
+    }
 
     return (
         //? Cassette
@@ -16,11 +27,10 @@ export const Cassette = ({ playlist, index }) => {
             }}
             className="absolute left-[calc(50%-119px)] w-[238px] h-[180px]">
                 {/* Link para ir al detail de la playlist */}
-            <Link
+            <button
                 onMouseEnter={() => setHover(true)}
                 onMouseLeave={() => setHover(false)}
-               
-                to={`/playlists/${playlist.id}`}>
+                onClick={handleClick}>
                 <div
                     className="relative hover:-translate-y-[25px] transition-all w-full h-full">
                     <img
@@ -35,7 +45,7 @@ export const Cassette = ({ playlist, index }) => {
                         <EditIcon />
                     </div>
                 </div>
-            </Link>
+            </button>
         </div>
     )
 }

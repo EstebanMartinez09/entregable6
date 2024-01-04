@@ -1,12 +1,12 @@
-import { Link } from "react-router-dom"
-import { AddIcon, DeleteIcon } from "../icons/Svgs"
 import { useDispatch, useSelector } from "react-redux"
+import { Link } from "react-router-dom"
 import { deleteSongPlayList, setPlayList } from "../../store/slices/createPlayList.slice"
+import { AddIcon, DeleteIcon } from "../icons/Svgs"
 
 export const TrackCard = ({ track }) => {
 
     //? traer el estado global para verificar si el track ya se encuentra en la lista
-    const playList = useSelector(store => store.createPlayList)
+    const playList = useSelector(store => store.createPlayList.playListEditing.tracks)
 
     //? Dispath para agregar tracks a la lista de reproducción
     const dispatch = useDispatch()
@@ -43,18 +43,18 @@ export const TrackCard = ({ track }) => {
                 {/* //? Nombre del track */}
                 <Link
                     to={`/tracks/${track.id}`}
-                    className="text-sm font-bold hover:text-secondary transition-colors line-clamp-1 ">
+                    className="text-sm font-bold hover:text-secondary transition-colors line-clamp-1 max-w-[197px] overflow-hidden">
                     {track.name}
                 </Link>
                 {/* //? Artistas del track */}
                 <ul
-                    className="flex flex-wrap gap-2">
+                    className="flex flex-wrap gap-2 ">
                     {
                         track.artists.slice(0, 2).map((artist) => (
                             <li
                                 key={artist.id}>
                                 <Link
-                                    className="text-white/40 text-sm hover:text-secondary transition-colors"
+                                    className="text-white/40 text-sm hover:text-secondary transition-colors line-clamp-1 max-w-[197px] overflow-hidden"
                                     to={`/artists/${artist.id}`}>
                                     {artist.name}
                                     {artist.name !== track.artists[track.artists.slice(0, 2).length - 1].name ? "," : ""}

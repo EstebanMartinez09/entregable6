@@ -3,19 +3,47 @@ import { ChangeIcon, EditIcon } from "../icons/Svgs"
 import "./PopUpPlayList.css"
 import { TrackList } from "./TrackList"
 import { useDispatch, useSelector } from "react-redux"
-import { createPlayListThunk } from "../../store/slices/createPlayList.slice"
+import { createPlayListThunk, updatePlayListInfo, updatePlaylistThunk } from "../../store/slices/createPlayList.slice"
+import { useNavigate } from "react-router-dom"
 
 const PopUpPlayList = ({ isShowPlayList, setIsShowPlayList }) => {
     //? State para mostrar el cassette de playlist
     const [isShowFront, setIsShowFront] = useState(true)
 
+    // Encuentra la playlist correspondiente al ID proporcionado
+    const playList = useSelector((store) => store.createPlayList.playListEditing);
+
+    const [toValue, setToValue] = useState(playList?.to || '');
+    const [titleValue, setTitleValue] = useState(playList?.title || '');
+    const [messageValue, setMessageValue] = useState(playList?.message || '');
+
     //? Dispatch
     const dispatch = useDispatch()
 
     //?Navigate
+    const navigate = useNavigate()
 
+    const editMode = useSelector(store => store.createPlayList.editing)
     //? estado global de playlist
-    const newPlayList = useSelector(store => store.createPlayList)
+    const { tracks: newPlayList, } = useSelector(store => store.createPlayList.playListEditing)
+
+    const handleToChange = (event) => {
+        const newTo = event.target.value;
+        setToValue(newTo);
+        dispatch(updatePlayListInfo({ field: "to", value: newTo }));
+    };
+
+    const handleTitleChange = (event) => {
+        const newTitle = event.target.value;
+        setTitleValue(newTitle);
+        dispatch(updatePlayListInfo({ field: "title", value: newTitle }));
+    };
+
+    const handleMessageChange = (event) => {
+        const newMessage = event.target.value;
+        setMessageValue(newMessage);
+        dispatch(updatePlayListInfo({ field: "message", value: newMessage }));
+    };
 
     //? Funcion para girar el cassette de playlist
     const handleToggleCassette = () => {
@@ -24,21 +52,27 @@ const PopUpPlayList = ({ isShowPlayList, setIsShowPlayList }) => {
 
     //? Funcion para crear playlist usando el dispatch para enviar la newData
     const handelCreatePlayList = (e) => {
-        e.preventDefault()
-        const formData = new FormData(e.target)
-        const data = Object.fromEntries(formData)
-        const tracks = newPlayList.map((track) => ({ "id": track.id }))
-        const newData = {
-            ...data,
-            tracks
+        if (editMode) {
+            e.preventDefault()
+            dispatch(updatePlaylistThunk(  setIsShowPlayList, navigate))
+        } else {
+            e.preventDefault()
+            const formData = new FormData(e.target)
+            const data = Object.fromEntries(formData)
+            const tracks = newPlayList.map((track) => ({ "id": track.id }))
+            const newData = {
+                ...data,
+                tracks
+            }
+            dispatch(createPlayListThunk(newData, e, setIsShowPlayList))
         }
-        dispatch(createPlayListThunk(newData, e, setIsShowPlayList))
+
     }
 
     return (
         <form
             onSubmit={handelCreatePlayList}
-            className={`absolute right-4 -bottom-4  translate-y-full bg-primary-light grid gap-2 p-4 rounded-xl ${isShowPlayList ? "block" : "hidden"}`}>
+            className={`absolute right-4 -bottom-4  translate-y-full bg-primary-light grid gap-2 p-4 rounded-xl ${isShowPlayList ? "block" : "hidden"} z-50`}>
             {/* cassette */}
             <div className={`relative cassette ${isShowFront ? "front" : "back"} mx-auto`}>
                 {/* Frontal */}
@@ -51,6 +85,8 @@ const PopUpPlayList = ({ isShowPlayList, setIsShowPlayList }) => {
                     <label
                         className="flex items-center bg-white p-2 rounded-lg border-[2px] border-[#1C1C1C] absolute top-[15px] left-[19px]  h-[32px] text-sm">
                         <input
+                            onChange={handleTitleChange}
+                            value={titleValue}
                             required
                             name="title"
                             className="outline-none bg-transparent text-black font-semibold w-[162px]"
@@ -69,6 +105,8 @@ const PopUpPlayList = ({ isShowPlayList, setIsShowPlayList }) => {
                     <label
                         className="flex items-center bg-white p-2 rounded-lg border-[2px] border-[#1C1C1C] absolute top-[15px] left-[19px]  h-[32px] text-sm">
                         <input
+                            onChange={handleToChange}
+                            value={toValue}
                             required
                             name="to"
                             className="outline-none bg-transparent text-black font-semibold w-[162px]"
@@ -80,6 +118,8 @@ const PopUpPlayList = ({ isShowPlayList, setIsShowPlayList }) => {
                     <label
                         className="flex items-center bg-white p-2 rounded-lg border-[2px] border-[#1C1C1C] absolute top-[50px] left-[19px] text-sm  ">
                         <textarea
+                            onChange={handleMessageChange}
+                            value={messageValue}
                             required
                             name="message"
                             className="outline-none bg-transparent text-black font-semibold resize-none w-[180px]"
@@ -100,12 +140,26 @@ const PopUpPlayList = ({ isShowPlayList, setIsShowPlayList }) => {
                 }
                 <ChangeIcon />
             </button>
-            <TrackList trackList={newPlayList} />
-            <button
-                type="submit"
-                className="flex gap-2 mx-auto p-1 px-4 border-2 border-white rounded-full">
-                Crear
-            </button>
+            {/* trackList */}
+            {
+                newPlayList && <TrackList trackList={newPlayList} />
+            }
+            {/* boton para crear */}
+
+            {
+                editMode
+                    ? (<button
+                        type="submit"
+                        className="flex gap-2 mx-auto p-1 px-4 border-2 border-white rounded-full">
+                        Actulizar
+                    </button>)
+                    : (<button
+                        type="submit"
+                        className="flex gap-2 mx-auto p-1 px-4 border-2 border-white rounded-full">
+                        Crear
+                    </button>)
+            }
+
         </form>
     )
 }

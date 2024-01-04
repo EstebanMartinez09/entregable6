@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import { setEditing } from "../../store/slices/createPlayList.slice"
+import { setPlayListsUser } from "../../store/slices/playListsUser.slice"
 import { logout } from "../../store/slices/user.slice"
 import { LogouthIncon, PlayIcon, PlayListIcon } from "../icons/Svgs"
 import PopUpPlayList from "./PopUpPlayList"
@@ -10,12 +12,24 @@ export const Header = () => {
     const [isShowAuth, setIsShowAuth] = useState(false)
     //? State para mostrar el popup de playlist
     const [isShowPlayList, setIsShowPlayList] = useState(false)
+    //? navigacion
+    const navigate = useNavigate()
 
-    //? Estado global playList
-    const playList = useSelector(store => store.createPlayList)
+    const playList = useSelector(store => store.createPlayList.playListEditing.tracks)
 
     // ? Obtener el dispatch
     const dispatch = useDispatch()
+
+    // ? Funcion para redirigir al home
+    const handleHome = () => {
+        dispatch(setEditing(false))
+        navigate("/")
+    }
+
+    const handleClickPlaylist = () => {
+        dispatch(setPlayListsUser())
+        navigate("/playlists")
+    }
 
     // ? Funcion para cerrar sesion
     const andleLogout = () => {
@@ -46,57 +60,62 @@ export const Header = () => {
         }
     }, [isShowAuth]);
 
+
+
     return (
         <header
-            className="flex justify-between p-4 bg-primary-dark relative">
-            {/* //? Logo */}
-            <Link
-                className="uppercase font-semibold text-2xl"
-                to="/">
-                GIFT MUSICS
-            </Link>
-            {/* //? Botones */}
+            className="bg-primary-dark relative">
             <div
-                className="flex gap-2">
-                {/* //? Boton Cuenta */}
+                className="max-w-[1920px] w-full mx-auto flex justify-between p-4">
+                {/* //? Logo */}
                 <button
-                    className="uppercase hover:bg-primary-light p-1 px-4 rounded-full border border-secondary font-semibold"
-                    onClick={handleToggleAuth}>
-                    Mi Cuenta
+                    className="uppercase font-semibold text-2xl"
+                    onClick={handleHome}>
+                    GIFT MUSICS
                 </button>
-                {/* //? Boton Playlist */}
-                <button
-                    className="uppercase hover:bg-primary-light p-1 px-4 rounded-full border border-secondary flex items-center gap-2 font-semibold"
-                    onClick={handleTogglePlayList}>
-                    <PlayListIcon />
-                    <span
-                        className="hidden md:block">
-                        Grabando
-                    </span>
-                    {
-                        playList.length 
-                    }
-                </button>
-                {/* //?Popup Auth */}
+                {/* //? Botones */}
                 <div
-                    className={`absolute right-4 -bottom-4 lg:right-[180px] translate-y-full bg-primary-light grid gap-2 p-4 rounded-xl ${isShowAuth ? "block" : "hidden"}`}>
-                    <Link
-                        to={"/playlists"}
-                        className="flex items-center gap-2 hover:text-[#3E14B5] transition-colors">
-                        <PlayIcon />
-                        Mis Grabaciones
-                    </Link>
-                    {/* //? Boton cerrar secion */}
+                    className="flex gap-2">
+                    {/* //? Boton Cuenta */}
                     <button
-                        className="flex items-center gap-2 hover:text-[#3E14B5] transition-color"
-                        onClick={andleLogout}>
-                        <LogouthIncon />
-                        cerrar secion
+                        className="uppercase hover:bg-primary-light p-1 px-4 rounded-full border border-secondary font-semibold"
+                        onClick={handleToggleAuth}>
+                        Mi Cuenta
                     </button>
-                </div>
+                    {/* //? Boton Playlist */}
+                    <button
+                        className="uppercase hover:bg-primary-light p-1 px-4 rounded-full border border-secondary flex items-center gap-2 font-semibold"
+                        onClick={handleTogglePlayList}>
+                        <PlayListIcon />
+                        <span
+                            className="hidden md:block">
+                            Grabando
+                        </span>
+                        {
+                            playList?.length 
+                        }
+                    </button>
+                    {/* //?Popup Auth */}
+                    <div
+                        className={`absolute right-4 -bottom-4 lg:right-[180px] translate-y-full bg-primary-light grid gap-2 p-4 rounded-xl ${isShowAuth ? "block" : "hidden"}`}>
+                        <button
+                            onClick={handleClickPlaylist}
+                            className="flex items-center gap-2 hover:text-[#3E14B5] transition-colors">
+                            <PlayIcon />
+                            Mis Grabaciones
+                        </button>
+                        {/* //? Boton cerrar secion */}
+                        <button
+                            className="flex items-center gap-2 hover:text-[#3E14B5] transition-color"
+                            onClick={andleLogout}>
+                            <LogouthIncon />
+                            cerrar secion
+                        </button>
+                    </div>
 
-                {/* //? Popup playList */}
-                <PopUpPlayList setIsShowPlayList={setIsShowPlayList} isShowPlayList={isShowPlayList} />
+                    {/* //? Popup playList */}
+                    <PopUpPlayList setIsShowPlayList={setIsShowPlayList} isShowPlayList={isShowPlayList} />
+                </div>
             </div>
         </header>
     )

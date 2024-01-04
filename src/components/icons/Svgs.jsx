@@ -155,9 +155,9 @@ const ChangeIcon = () => {
     )
 }
 
-const LoadingIcon = ({ isLoading }) => {
+const LoadingIcon = () => {
     return (
-        <div className={`flex flex-row gap-2  ${isLoading ? "opacity-100" : "opacity-0"} `}>
+        <div className={`flex flex-row gap-2  `}>
             <div className="w-2 h-2 rounded-full bg-white animate-bounce [animation-delay:.7s]"></div>
             <div className="w-2 h-2 rounded-full bg-white animate-bounce [animation-delay:.3s]"></div>
             <div className="w-2 h-2 rounded-full bg-white animate-bounce [animation-delay:.7s]"></div>
