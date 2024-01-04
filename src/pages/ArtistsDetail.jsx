@@ -1,14 +1,13 @@
-import { Link, useParams } from "react-router-dom";
-import { Header } from "../components/shared/Header";
-import { axiosMusic } from "../utils/ConfigAxios";
-import { useEffect, useState } from "react";
-import usePopularityRange from "../utils/usePopularityRange";
 import { IconUserHexagon } from "@tabler/icons-react";
 import "keen-slider/keen-slider.min.css";
-import Slider from "../utils/Slider";
-import "../styles/Scroll.css";
-import { TrackCard } from "../components/shared/TrackCard";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { Header } from "../components/shared/Header";
 import { TrackList } from "../components/shared/TrackList";
+import "../styles/Scroll.css";
+import { axiosMusic } from "../utils/ConfigAxios";
+import Slider from "../utils/Slider";
+import usePopularityRange from "../utils/usePopularityRange";
 
 export const ArtistsDetail = () => {
   const { id } = useParams();
@@ -23,7 +22,6 @@ export const ArtistsDetail = () => {
       .get(`/api/artists/${id}`)
       .then(({ data }) => {
         setArtistData(data);
-        console.log(data);
       })
       .catch((err) => console.log(err))
       .finally(() => setLoader(false));
