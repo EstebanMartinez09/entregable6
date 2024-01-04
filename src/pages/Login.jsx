@@ -46,6 +46,7 @@ export const Login = () => {
               E-mail
             </span>
             <input
+              autoComplete="off"
               name="email"
               required
               type="email" />
@@ -55,6 +56,7 @@ export const Login = () => {
               contraseña
             </span>
             <input
+              autoComplete="off"
               name="password"
               required
               type="password" />

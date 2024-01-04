@@ -72,7 +72,7 @@ const PopUpPlayList = ({ isShowPlayList, setIsShowPlayList }) => {
     return (
         <form
             onSubmit={handelCreatePlayList}
-            className={`absolute right-4 -bottom-4  translate-y-full bg-primary-light grid gap-2 p-4 rounded-xl ${isShowPlayList ? "block" : "hidden"} z-50`}>
+            className={`max-w-[270px] w-full absolute right-4 -bottom-4  translate-y-full bg-primary-light grid gap-2 p-4 rounded-xl ${isShowPlayList ? "block" : "hidden"} z-50`}>
             {/* cassette */}
             <div className={`relative cassette ${isShowFront ? "front" : "back"} mx-auto`}>
                 {/* Frontal */}

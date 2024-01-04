@@ -52,6 +52,7 @@ export const Register = () => {
               E-mail
             </span>
             <input
+              autoComplete="off"
               name="email"
               required
               type="email" />
@@ -61,6 +62,7 @@ export const Register = () => {
               Nombre de usuario
             </span>
             <input
+              autoComplete="off"
               name="name"
               required
               type="text" />
@@ -70,6 +72,7 @@ export const Register = () => {
               contraseña
             </span>
             <input
+              autoComplete="off"
               name="password"
               required
               type="password" />

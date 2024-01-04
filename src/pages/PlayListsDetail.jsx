@@ -2,13 +2,14 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { ChangeIcon, EditIcon } from "../components/icons/Svgs";
+import { AddIcon, ChangeIcon, EditIcon } from "../components/icons/Svgs";
 import "../components/shared/Cassette.css"; // Importa los estilos CSS para el cassette
 import { Header } from "../components/shared/Header";
 import { TrackList } from "../components/shared/TrackList";
 import { setEditing, updatePlayListInfo, updatePlaylistThunk } from "../store/slices/createPlayList.slice";
-
+import "../pages/PlayListsDetail.css";
 // Define el componente PlayListsDetail
+
 export const PlayListsDetail = () => {
   // Estado para controlar la visibilidad del lado frontal o trasero del cassette
   const [isShowFront, setIsShowFront] = useState(true);
@@ -68,7 +69,7 @@ export const PlayListsDetail = () => {
         {/* Contenido principal del componente */}
         <main className="bg-primary-dark p-8 px-4 rounded-3xl sm:px-8 mt-12 max-w-[562px] mx-auto w-full">
           {/* Enlace para volver a la lista de playlists */}
-          <button onClick={handleBackToTop} className="text-yellow-300 text-sm font-semibold font-['Urbanist'] border-b border-yellow-300 leading-tight tracking-tight">
+          <button onClick={handleBackToTop} className=" text-yellow-300 text-sm font-semibold font-['Urbanist'] border-b border-yellow-300 leading-tight tracking-tight">
             {"<"} Atrás
           </button>
 
@@ -131,7 +132,7 @@ export const PlayListsDetail = () => {
 
               {/* Botón para alternar entre el lado frontal y trasero del cassette */}
               <button
-                className="flex gap-2 mx-auto p-1 px-4 border-2 border-white rounded-full mb-4 mt-4"
+                className="flex gap-2 mx-auto p-1 px-4 border-2 border-white rounded-full mb-4 mt-4 hover:bg-primary-light transition-colors"
                 type="button"
                 onClick={handleToggleCassette}
               >
@@ -143,12 +144,20 @@ export const PlayListsDetail = () => {
               <TrackList trackList={playList.tracks} />
 
               {/* Botón para agregar tracks a la playlist */}
+              <button
+                onClick={() => {
+                  navigate("/")
+                }}
+                className=" flex gap-4 mt-4 mx-auto rounded-full border border-white p-2 hover:bg-primary-light transition-colors">
+                <AddIcon />
+                Agregar track
+              </button>
 
               {/* Botón para actualizar a la playlist */}
               <button
                 onClick={handleUpdatePlaylist}
                 type="submit"
-                className="mt-4 flex gap-2 mx-auto p-1 px-4 border-2 border-white rounded-full">
+                className="mt-4 flex gap-2 mx-auto p-1 px-4 border-2 border-white rounded-full hover:bg-primary-light transition-colors">
                 Actulizar
               </button>
             </>
