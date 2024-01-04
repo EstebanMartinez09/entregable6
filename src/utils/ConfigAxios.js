@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosMusic = axios.create({
-    baseURL : "https://backend-final-project-dev-hpaf.3.us-1.fl0.io"
+    baseURL : "https://music-apiv2.2.us-1.fl0.io"
 })
 
 axiosMusic.interceptors.request.use((config) => {
