@@ -1,9 +1,8 @@
 import { Link, useParams } from "react-router-dom"
-import { Cassette } from "../components/shared/Cassette"
 import { useEffect, useState } from "react"
 import { axiosMusic } from "../utils/ConfigAxios"
 import { TrackList } from "../components/shared/TrackList"
-import { ChangeIcon } from "../components/icons/Svgs"
+import { AddIcon, ChangeIcon, EditIcon, ShareIcon } from "../components/icons/Svgs"
 
 export const PlayListsPublic = () => {
   const [playlistInfo, setPlaylistInfo] = useState(null)  
@@ -22,7 +21,7 @@ export const PlayListsPublic = () => {
         console.log(err)
       })
   }, [])
-  console.log(playlistInfo)
+ 
   return (
     <section
     className="bg-dark bg-[url('/bagraund/mancha-mobile.png')] md:bg-[url('/bagraund/mancha-desk.png')] bg-no-repeat bg-right-bottom
@@ -43,9 +42,74 @@ export const PlayListsPublic = () => {
       {
         playlistInfo?  
         (
-          <section className="flex flex-col" >
-          <div className="relative h-[183px]">
-            <Cassette playlist={playlistInfo} index={0} />
+          <section className="flex flex-col gap-3" >
+          <div className="flex h-[183px] justify-self-center ">
+            {/* cassette */}
+            <div className={`relative cassette ${isShowFront ? "front" : "back"} mx-auto`}>
+                {/* Frontal */}
+                <div
+                    className="relative front">
+                    <img
+                        src="/images/frontalCaset.png"
+                        alt="caset" />
+                    {/* Titulo */}
+                    <div
+                        className="absolute top-[8%] left-5 w-[200px] flex justify-between items-center p-1 bg-white rounded-md border-[2px] border-[#1C1C1C] ">
+                        <p
+                            className="text-black">
+                            {playlistInfo.title}
+                        </p>
+                        <Link
+                        to={"/register"}>
+                        
+                        <EditIcon />
+                        </Link>
+                        
+                    </div>
+                    <div className="absolute bottom-[10%] right-5">
+                    <AddIcon />
+                    </div>
+                    <div className="absolute bottom-[10%] right-12">
+                    <ShareIcon />
+                    
+                    </div>
+
+                    
+                </div>
+                {/* Trasera */}
+                <div
+                    className="absolute top-0 back">
+                    <img
+                        src="/images/frontalCaset.png"
+                        alt="caset" />
+                    {/* Para */}
+                    <div
+                        className="absolute top-[8%] left-5 w-[200px] flex justify-between items-center p-1 bg-white rounded-md border-[2px] border-[#1C1C1C] ">
+                        <p
+                            className="text-black">
+                            {playlistInfo.to}
+                        </p>
+                        <Link
+                        to={"/register"}>
+                        
+                        <EditIcon />
+                        </Link>
+                    </div>
+                    {/* Mensaje */}
+                    <div
+                        className="h-[75px] absolute top-[30%] left-5 w-[200px] flex justify-between  p-1 bg-white rounded-md border-[2px] border-[#1C1C1C] ">
+                        <p
+                            className="text-black">
+                            {playlistInfo.message}
+                        </p>
+                        <Link
+                        to={"/register"}>
+                        
+                        <EditIcon />
+                        </Link>
+                    </div>
+                </div>
+            </div>
           </div> 
           <div className="flex justify-center items-center content-center">
           <button
