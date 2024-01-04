@@ -2,7 +2,7 @@ import axios from "axios"
 import { Link, useNavigate } from "react-router-dom"
 import { ConteinerAuth } from "../components/layouts/ConteinerAuth"
 
-const BASE_URL = "https://music-apiv2.2.us-1.fl0.io"
+const BASE_URL = "https://backend-final-project-dev-hpaf.3.us-1.fl0.io"
 
 export const Register = () => {
 
