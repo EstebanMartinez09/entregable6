@@ -4,7 +4,6 @@ import { ConteinerAuth } from "../components/layouts/ConteinerAuth"
 import { loginThunk } from "../store/slices/user.slice"
 
 
-
 export const Login = () => {
 
   //? Obtener el dispatch
@@ -18,6 +17,7 @@ export const Login = () => {
     //? Obtener los datos del formulario
     const formData = new FormData(e.target)
     const data = Object.fromEntries(formData)
+   
     //? Enviar los datos al servidor y iniciar sesion ataraves del dispatch
     dispatch(loginThunk(data, navigate))
   }

@@ -1,8 +1,7 @@
-import axios from "axios"
 import { Link, useNavigate } from "react-router-dom"
 import { ConteinerAuth } from "../components/layouts/ConteinerAuth"
+import { axiosMusic } from "../utils/ConfigAxios"
 
-const BASE_URL = "https://backend-final-project-dev-hpaf.3.us-1.fl0.io"
 
 export const Register = () => {
 
@@ -16,8 +15,8 @@ export const Register = () => {
     const formData = new FormData(e.target)
     const data = Object.fromEntries(formData)
     //? Enviar los datos al servidor
-    axios
-      .post(`${BASE_URL}/api/auth/register`, data)
+    axiosMusic
+      .post(`/api/auth/register`, data)
       .then(() => {
         alert("Usuario creado con exito")
         navigate("/login")
