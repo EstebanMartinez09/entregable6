@@ -2,12 +2,14 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AddIcon, ChangeIcon, EditIcon } from "../components/icons/Svgs";
+import { AddIcon, ChangeIcon, DeletePlayListIcon, EditIcon, SharePlayList } from "../components/icons/Svgs";
 import "../components/shared/Cassette.css"; // Importa los estilos CSS para el cassette
 import { Header } from "../components/shared/Header";
 import { TrackList } from "../components/shared/TrackList";
-import { setEditing, updatePlayListInfo, updatePlaylistThunk } from "../store/slices/createPlayList.slice";
 import "../pages/PlayListsDetail.css";
+import { setEditing, updatePlayListInfo, updatePlaylistThunk } from "../store/slices/createPlayList.slice";
+import { axiosMusic } from "../utils/ConfigAxios";
+import { setPlayListsUser } from "../store/slices/playListsUser.slice";
 // Define el componente PlayListsDetail
 
 export const PlayListsDetail = () => {
@@ -60,6 +62,31 @@ export const PlayListsDetail = () => {
     dispatch(updatePlaylistThunk(false, navigate))
   }
 
+  const handleDeletePlaylist = (e) => {
+    e.preventDefault();
+    axiosMusic
+      .delete(`/api/playlists/${playList.id}`)
+      .then(() => {
+        dispatch(setPlayListsUser())
+        alert("Playlist Eliminada");
+        navigate('/playlists');
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
+  const handleCopyPlaylistLink = () => {
+    const playlistLink = `https://entregable6-jlkq.vercel.app/playlists/public/${playList.id}`; // Reemplaza con la URL real de tu aplicación
+    navigator.clipboard.writeText(playlistLink)
+      .then(() => {
+        alert("Enlace de playlist copiado al portapapeles");
+      })
+      .catch((error) => {
+        console.error("Error al copiar el enlace:", error);
+      });
+  };
+
   // Renderiza la interfaz del componente
   return (
     <section className="bg-dark bg-[url('/bagraund/mancha-mobile.png')] md:bg-[url('/bagraund/mancha-desk.png')] bg-no-repeat bg-right-bottom text-white min-h-screen  font-urbanist grid grid-rows-[auto_1fr] overflow-hidden">
@@ -95,6 +122,16 @@ export const PlayListsDetail = () => {
                     />
                     <EditIcon />
                   </label>
+                  <div className="flex items-center max-w-[230px] w-full justify-around absolute bottom-[15px] left-0  text-sm">
+                    <button
+                      onClick={handleDeletePlaylist}>
+                      <DeletePlayListIcon />
+                    </button>
+                    <button
+                      onClick={handleCopyPlaylistLink}>
+                      <SharePlayList />
+                    </button>
+                  </div>
                 </div>
 
                 {/* Lado trasero del cassette */}
