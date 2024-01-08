@@ -2,15 +2,33 @@ import { Link, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { axiosMusic } from "../utils/ConfigAxios"
 import { TrackList } from "../components/shared/TrackList"
-import { AddIcon, ChangeIcon, EditIcon, ShareIcon } from "../components/icons/Svgs"
+import { AddIconPublic, ChangeIcon, EditIcon,  SharePlayList } from "../components/icons/Svgs"
+import {Modal} from "../components/shared/Modal"
 
 export const PlayListsPublic = () => {
-  const [playlistInfo, setPlaylistInfo] = useState(null)  
+  const [playlistInfo, setPlaylistInfo] = useState(null) ;
+  const [showModal, setShowModal] = useState(false); 
   const {id} = useParams();
   const [isShowFront, setIsShowFront] = useState(true)
   const handleToggleCassette = () => {
     setIsShowFront(!isShowFront)
 }
+const handleOpenModal = () => {
+  setShowModal(true);
+}
+const handleCloseModal = () => {
+  setShowModal(false);
+}
+const handleCopyPublicLink = () => {
+  const playlistLink = window.location.href; // Extraer la URL 
+  navigator.clipboard.writeText(playlistLink)
+    .then(() => {
+      alert("Enlace de playlist copiado al portapapeles");
+    })
+    .catch((error) => {
+      console.error("Error al copiar el enlace:", error);
+    });
+};
   useEffect(() => {
     axiosMusic
       .get(`/api/playlists/${id}`)
@@ -25,7 +43,7 @@ export const PlayListsPublic = () => {
   return (
     <section
     className="bg-dark bg-[url('/bagraund/mancha-mobile.png')] md:bg-[url('/bagraund/mancha-desk.png')] bg-no-repeat bg-right-bottom
-    text-white h-screen overflow-auto font-urbanist grid grid-rows-[auto_1fr]">
+    text-white h-screen overflow-auto font-urbanist grid grid-rows-[auto_1fr]">   
       <header
             className="flex justify-center p-4 bg-primary-dark relative">
             {/* //? Logo */}
@@ -34,7 +52,7 @@ export const PlayListsPublic = () => {
                 to="/">
                 GIFT MUSIC
             </Link>
-        </header>
+        </header>            
       <section
       className="p-2 mt-12 max-w-[562px] mx-auto">
       <main
@@ -61,18 +79,19 @@ export const PlayListsPublic = () => {
                         </p>
                         <Link
                         to={"/register"}>
-                        
                         <EditIcon />
                         </Link>
                         
                     </div>
-                    <div className="absolute bottom-[10%] right-5">
-                    <AddIcon />
-                    </div>
-                    <div className="absolute bottom-[10%] right-12">
-                    <ShareIcon />
+                    <button className="absolute bottom-[8%] right-5" 
+                    onClick={handleOpenModal}>
+                    <AddIconPublic />
+                    </button>
+                    <button className="absolute bottom-[8%] right-16 "
+                    onClick={handleCopyPublicLink}>
+                    <SharePlayList />
                     
-                    </div>
+                    </button>
 
                     
                 </div>
@@ -134,8 +153,9 @@ export const PlayListsPublic = () => {
       <section>
         <TrackList trackList={playlistInfo?.tracks}/>
       </section>
-      </main>
+      </main>  
       </section>
+      <Modal showModal={showModal} onCloseModal={handleCloseModal} />
     </section>
   )
 }
